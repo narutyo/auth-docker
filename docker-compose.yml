@@ -69,7 +69,8 @@ services:
     networks:
       - auth-sample
     ports:
-      - "9081:80"
+      - "5081:80"
+      - "55173:55173"
     volumes:
       - ./submodules/auth-sample:/var/www/auth-sample
     environment:
@@ -77,7 +78,7 @@ services:
       APP_ENV: local
       APP_KEY: "base64:qcPfU/VDf6uuipgg/y1cI8dwGEM9BUYFoFU3qrpLEeE="
       APP_DEBUG: "true"
-      APP_URL: http://localhost:9081
+      APP_URL: http://localhost:5081
       DB_CONNECTION: mysql
       DB_HOST: auth-sample-mysql
       DB_PORT: 3306
@@ -102,7 +103,7 @@ services:
     networks:
       - auth-sample
     ports:
-      - "9080:80"
+      - "5080:80"
     volumes:
       - ./submodules/auth-api-sample:/var/www/auth-api-sample
     environment:
@@ -110,7 +111,7 @@ services:
       APP_ENV: local
       APP_KEY: "base64:qcPfU/VDf6uuipgg/y1cI8dwGEM9BUYFoFU3qrpLEeE="
       APP_DEBUG: "true"
-      APP_URL: http://localhost:9080
+      APP_URL: http://localhost:5080
       DB_CONNECTION: mysql
       DB_HOST: auth-api-sample-mysql
       DB_PORT: 3306

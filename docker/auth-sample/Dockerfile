@@ -20,6 +20,10 @@ COPY ./php.ini /usr/local/etc/php/php.ini
 
 RUN a2enmod rewrite
 
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get install -y nodejs
+RUN npm install npm@latest -g
+
 WORKDIR /var/www/auth-sample
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
