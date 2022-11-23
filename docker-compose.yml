@@ -1,0 +1,136 @@
+version: "3.3"
+networks:
+  auth-sample:
+    driver: bridge
+volumes:
+  auth-sample-mysql-volume:
+    driver: local
+  auth-api-sample-mysql-volume:
+    driver: local
+services:
+  auth-sample-mysql:
+    container_name: auth-sample-mysql
+    build:
+      context: ./docker/mysql
+    networks:
+      - auth-sample
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    logging:
+      driver: json-file
+      options:
+        max-size: "100m"
+        max-file: "2"
+    restart: "no"
+    ports:
+      - 53306:3306
+    volumes:
+      - auth-sample-mysql-volume:/var/lib/mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --default-authentication-plugin=mysql_native_password
+    environment:
+      TERM: linux
+      LANG: "C.UTF-8"
+      MYSQL_ROOT_PASSWORD: laravel
+      MYSQL_DATABASE: auth_sample
+      LOG_ROTATION_DAY: 7
+  auth-api-sample-mysql:
+    container_name: auth-api-sample-mysql
+    build:
+      context: ./docker/mysql
+    networks:
+      - auth-sample
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    logging:
+      driver: json-file
+      options:
+        max-size: "100m"
+        max-file: "2"
+    restart: "no"
+    ports:
+      - 53307:3306
+    volumes:
+      - auth-api-sample-mysql-volume:/var/lib/mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --default-authentication-plugin=mysql_native_password
+    environment:
+      TERM: linux
+      LANG: "C.UTF-8"
+      MYSQL_ROOT_PASSWORD: laravel
+      MYSQL_DATABASE: auth_api_sample
+      LOG_ROTATION_DAY: 7
+  auth-sample:
+    build:
+      context: ./docker/auth-sample
+    container_name: auth-sample
+    depends_on:
+      - auth-sample-mysql
+    networks:
+      - auth-sample
+    ports:
+      - "9081:80"
+    volumes:
+      - ./submodules/auth-sample:/var/www/auth-sample
+    environment:
+      APP_NAME: "Oauth2-sample"
+      APP_ENV: local
+      APP_KEY: "base64:qcPfU/VDf6uuipgg/y1cI8dwGEM9BUYFoFU3qrpLEeE="
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:9081
+      DB_CONNECTION: mysql
+      DB_HOST: auth-sample-mysql
+      DB_PORT: 3306
+      DB_DATABASE: auth_sample
+      DB_USERNAME: root
+      DB_PASSWORD: laravel
+      MAIL_MAILER: smtp
+      MAIL_HOST: auth-sample-mailhog
+      MAIL_PORT: 1025
+      MAIL_USERNAME: null
+      MAIL_PASSWORD: null
+      MAIL_ENCRYPTION: 'false'
+      MAIL_FROM_ADDRESS: "auth@auth-sample"
+      MAIL_FROM_NAME: "auth-sample"
+      HELP_ICON_EDITABLE: "true"
+  auth-api-sample:
+    build:
+      context: ./docker/auth-api-sample
+    container_name: auth-api-sample
+    depends_on:
+      - auth-sample-mysql
+    networks:
+      - auth-sample
+    ports:
+      - "9080:80"
+    volumes:
+      - ./submodules/auth-sample:/var/www/auth-sample
+    environment:
+      APP_NAME: "Oauth2-sample"
+      APP_ENV: local
+      APP_KEY: "base64:qcPfU/VDf6uuipgg/y1cI8dwGEM9BUYFoFU3qrpLEeE="
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:9080
+      DB_CONNECTION: mysql
+      DB_HOST: auth-sample-mysql
+      DB_PORT: 3306
+      DB_DATABASE: auth_api_sample
+      DB_USERNAME: root
+      DB_PASSWORD: laravel
+      MAIL_MAILER: smtp
+      MAIL_HOST: auth-sample-mailhog
+      MAIL_PORT: 1025
+      MAIL_USERNAME: null
+      MAIL_PASSWORD: null
+      MAIL_ENCRYPTION: 'false'
+      MAIL_FROM_ADDRESS: "api@auth-sample"
+      MAIL_FROM_NAME: "auth-api-sample"
+      HELP_ICON_EDITABLE: "true"
+  auth-sample-mailhog:
+    image: mailhog/mailhog
+    container_name: auth-sample-mailhog
+    ports:
+      - 51025:1025
+      - 58025:8025
+    networks:
+      - auth-sample
