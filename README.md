@@ -4,6 +4,7 @@
 $ git clone git@github.com:narutyo/auth-docker.git
 $ cd auth-docker
 $ git submodule update --init --recursive
+$ git submodule foreach git checkout master
 $ docker-compose up -d --build
 
 # コンテナが立ち上がってから...
