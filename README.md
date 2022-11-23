@@ -7,10 +7,15 @@ $ git submodule update --init --recursive
 $ docker-compose up -d --build
 
 # コンテナが立ち上がってから...
+$ docker-compose exec auth-sample composer self-update
+$ docker-compose exec auth-sample composer config -g repos.packagist composer https://packagist.jp
 $ docker-compose exec auth-sample composer install
 $ sudo find submodules/auth-sample/storage -type d -exec chmod 777 {} +
 $ sudo find submodules/auth-sample/storage -type f -exec chmod 666 {} +
 $ docker-compose exec auth-sample php artisan migrate --seed
+
+$ docker-compose exec auth-api-sample composer self-update
+$ docker-compose exec auth-api-sample composer config -g repos.packagist composer https://packagist.jp
 $ docker-compose exec auth-api-sample composer install
 $ sudo find submodules/auth-api-sample/storage -type d -exec chmod 777 {} +
 $ sudo find submodules/auth-api-sample/storage -type f -exec chmod 666 {} +
