@@ -1,0 +1,6 @@
+[submodule "submodules/auth-api-sample"]
+	path = submodules/auth-api-sample
+	url = git@github.com:narutyo/auth-api-sample.git
+[submodule "submodules/auth-sample"]
+	path = submodules/auth-sample
+	url = git@github.com:narutyo/auth-sample.git
