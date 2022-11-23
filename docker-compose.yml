@@ -73,7 +73,7 @@ services:
     volumes:
       - ./submodules/auth-sample:/var/www/auth-sample
     environment:
-      APP_NAME: "Oauth2-sample"
+      APP_NAME: "auth-sample"
       APP_ENV: local
       APP_KEY: "base64:qcPfU/VDf6uuipgg/y1cI8dwGEM9BUYFoFU3qrpLEeE="
       APP_DEBUG: "true"
@@ -104,15 +104,15 @@ services:
     ports:
       - "9080:80"
     volumes:
-      - ./submodules/auth-sample:/var/www/auth-sample
+      - ./submodules/auth-api-sample:/var/www/auth-api-sample
     environment:
-      APP_NAME: "Oauth2-sample"
+      APP_NAME: "auth-api-sample"
       APP_ENV: local
       APP_KEY: "base64:qcPfU/VDf6uuipgg/y1cI8dwGEM9BUYFoFU3qrpLEeE="
       APP_DEBUG: "true"
       APP_URL: http://localhost:9080
       DB_CONNECTION: mysql
-      DB_HOST: auth-sample-mysql
+      DB_HOST: auth-api-sample-mysql
       DB_PORT: 3306
       DB_DATABASE: auth_api_sample
       DB_USERNAME: root
