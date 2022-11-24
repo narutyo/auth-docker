@@ -93,7 +93,6 @@ services:
       MAIL_ENCRYPTION: 'false'
       MAIL_FROM_ADDRESS: "auth@auth-sample"
       MAIL_FROM_NAME: "auth-sample"
-      HELP_ICON_EDITABLE: "true"
   auth-api-sample:
     build:
       context: ./docker/auth-api-sample
@@ -126,7 +125,10 @@ services:
       MAIL_ENCRYPTION: 'false'
       MAIL_FROM_ADDRESS: "api@auth-sample"
       MAIL_FROM_NAME: "auth-api-sample"
-      HELP_ICON_EDITABLE: "true"
+      AUTH_API_BROWSER: "http://localhost:5081"
+      AUTH_API_PRIVATE: "http://auth-sample:80"
+      AUTH_CLIENT_ID: "97d1c7b2-ea84-4cc4-a22a-2908346e5d6a"
+      AUTH_CLIENT_SECRET: "8IXnJnKU71dgX28JcJpQe0nBlayVx9Xiq224Q4qb"
   auth-sample-mailhog:
     image: mailhog/mailhog
     container_name: auth-sample-mailhog
